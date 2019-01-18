@@ -1,8 +1,8 @@
 package user
 
 import (
-	"../../firedog/fd"
 	"fmt"
+	"github.com/gohuge/firedog/fd"
 )
 
 func init() {

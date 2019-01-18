@@ -1,10 +1,9 @@
-
 package user
 
 import (
-	"../../firedog/fd"
-	"../../firedog/util"
 	"fmt"
+	"github.com/gohuge/firedog/fd"
+	"github.com/gohuge/firedog/util"
 	"time"
 )
 

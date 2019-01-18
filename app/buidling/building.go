@@ -1,8 +1,8 @@
 package buidling
 
 import (
-	"../../firedog/fd"
 	"fmt"
+	"github.com/gohuge/firedog/fd"
 )
 
 var room *fd.Room

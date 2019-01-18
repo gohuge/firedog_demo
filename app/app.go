@@ -1,10 +1,10 @@
 package app
 
 import (
-	"../firedog/fd"
-	"../firedog/log"
-	"../firedog/util"
 	_ "./user"
+	"github.com/gohuge/firedog/fd"
+	"github.com/gohuge/firedog/log"
+	"github.com/gohuge/firedog/util"
 )
 
 type Module struct {

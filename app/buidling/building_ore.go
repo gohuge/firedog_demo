@@ -1,16 +1,15 @@
 package buidling
 
 import (
-	"../../firedog/fd"
 	"fmt"
+	"github.com/gohuge/firedog/fd"
 )
 
-type BuildingOre struct{
-
+type BuildingOre struct {
 	room *fd.Room
 }
 
-func (this * BuildingOre)New() {
+func (this *BuildingOre) New() {
 	this.room = &fd.Room{}
 	this.room.Name = "BuildingOre"
 	this.room.OnInit = this.OnInit
@@ -18,11 +17,11 @@ func (this * BuildingOre)New() {
 	this.room.Close = this.Close
 }
 
-func (this * BuildingOre)OnInit(r *fd.Room, args []interface{}) {
+func (this *BuildingOre) OnInit(r *fd.Room, args []interface{}) {
 	fmt.Println(" Init ", r.Name, args)
 }
 
-func (this * BuildingOre)Handler(r *fd.Room, msg string, args []interface{}, ret chan []interface{}) {
+func (this *BuildingOre) Handler(r *fd.Room, msg string, args []interface{}, ret chan []interface{}) {
 	fmt.Println(" Handler ", r.Name, msg, args)
 
 	if "ttt" == msg {
@@ -30,6 +29,6 @@ func (this * BuildingOre)Handler(r *fd.Room, msg string, args []interface{}, ret
 	}
 }
 
-func (this * BuildingOre)Close(r *fd.Room, reason string) {
+func (this *BuildingOre) Close(r *fd.Room, reason string) {
 	fmt.Println(" Close ", r.Name, reason)
 }
