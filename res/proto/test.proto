@@ -1,0 +1,10 @@
+// 指定版本
+syntax = "proto3";
+// 导入包名
+package pb;
+
+// 任务数据
+message task {
+    uint32 tid = 1;
+    string number = 2;
+}

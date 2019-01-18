@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<firedog>
+  <def id="port" type="int64">8000</def>
+  <def id="host" type="string">localhost</def>
+  <mfa p="cacl,db" m="app" f="Start" />  
+  <mfa p="cacl,db" m="TCPServer" f="Start">
+     <val type="string" value="localhost:3344"/>
+     <val type="int" value="12345"/>
+     <val type="int" value="12345"/>
+  </mfa>
+  <mfa x="cacl,db" m="app" f="Print">
+      <val type="string" value="yes i do"/>
+      <val type="int" value="1000000"/>
+  </mfa>
+ 
+  <mfa p="cacl,db" m="valuesttt" f="aaa">
+      <val type="string" value="hello"/>
+      <val type="string" value="88888"/>
+      <val type="int" value="1312121"/>
+      <val type="int64" value="3243232"/>
+      <val type="float32" value="33.4"/>
+      <val type="float64" value="47.5"/>
+  </mfa>
+  <http addr="127.0.0.1" port="9000" ssl="false"/>
+  <event id="test" m="UserPort" timeout="0" />
+  
+  <!-- 日志配置：等级，路径，flag-->
+  <log type="info" prefix="INFO" dir="./log" enable="true"/>
+  <log type="warn" prefix="WARN" dir="./log" enable="true"/>
+  <log type="debug" prefix="DEBUG" dir="./log" enable="false"/>
+  
+  <init p="cacl,db" m="Logger" f="Start">
+     <val type="string" value="debug"/>
+     <val type="string" value="./log"/>
+  </init>
+  <init p="cacl,db" m="Logger" f="Debug">
+      <val type="string" value="yes i do"/>
+      <val type="string" value="this is a log"/>
+  </init>
+  <mfa p="cacl,db" m="Timer" f="Start"/>
+</firedog>
