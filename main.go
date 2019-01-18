@@ -10,10 +10,8 @@ import (
 
 import (
 	_ "./app"
-
-	"github.com/gohuge/firedog/src/firedog/boot"
-	//"./firedog/boot"
-	_ "./pb"
+	_ "./app/pb"
+	"github.com/gohuge/firedog/boot"
 )
 
 func init() {
