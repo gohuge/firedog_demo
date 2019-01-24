@@ -1,0 +1,4 @@
+<firedog version="1.0">
+    <sample sid="1" name="a" type="prop"/>
+    <sample sid="2" name="b" type="task"/>
+</firedog>

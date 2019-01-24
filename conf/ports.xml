@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<firedog>
- <port id="1234" proto="pb.task" name="UserPort" timeout="3000">
-      <val type="string" value="yes i do"/>
-      <val type="int" value="1000000"/>
-  </port>
-  <port id="1244" proto="pb.task" name="UserPort" timeout="3000"/>
-</firedog>
