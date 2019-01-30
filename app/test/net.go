@@ -10,8 +10,8 @@ import (
 	"os"
 	"time"
 	// "sync"
-	"github.com/gohuge/firedog/util"
 	"../pb"
+	"github.com/gohuge/firedog/util"
 	"github.com/golang/protobuf/proto"
 )
 
@@ -25,6 +25,8 @@ const (
 var (
 	server = "127.0.0.1:3344"
 )
+
+var set = [2]*ReportPacket{&ReportPacket{}, &ReportPacket{}}
 
 //数据包
 type Packet struct {
@@ -123,10 +125,8 @@ func main() {
 func (client *TcpClient) receivePackets() {
 	reader := bufio.NewReader(client.connection)
 	for {
-		//承接上面说的服务器端的偷懒，我这里读也只是以\n为界限来读区分包
 		msg, err := reader.ReadString('\n')
 		if err != nil {
-			//在这里也请处理如果服务器关闭时的异常
 			close(client.stopChan)
 			break
 		}
@@ -134,8 +134,6 @@ func (client *TcpClient) receivePackets() {
 	}
 }
 
-//发送数据包
-//仔细看代码其实这里做了两次json的序列化，有一次其实是不需要的
 func (client *TcpClient) sendReportPacket() {
 	reportPacket := ReportPacket{
 		Content:   getRandString(),
@@ -146,7 +144,6 @@ func (client *TcpClient) sendReportPacket() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	//这一次其实可以不需要，在封包的地方把类型和数据传进去即可
 	packet := Packet{
 		PacketType:    REPORT_PACKET,
 		PacketContent: packetBytes,
@@ -155,7 +152,6 @@ func (client *TcpClient) sendReportPacket() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	//发送
 	client.connection.Write(EnPackSendData(sendBytes))
 	fmt.Println("Send metric data success!", sendBytes)
 }
