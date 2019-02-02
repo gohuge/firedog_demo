@@ -11,8 +11,10 @@ import (
 	"time"
 	// "sync"
 	"../pb"
+	"encoding/xml"
 	"github.com/gohuge/firedog/util"
 	"github.com/golang/protobuf/proto"
+	"io/ioutil"
 )
 
 //数据包类型
@@ -21,12 +23,21 @@ const (
 	REPORT_PACKET     = 0x01
 )
 
-//默认的服务器地址
-var (
-	server = "127.0.0.1:3344"
-)
+type NetClient struct {
+	XMLName xml.Name `xml:"client"`
+	count   int      `xml:"count,attr"` //连接数
+	//next int		 `xml:"next,attr"`//下一个链接的创建毫秒
+	address string   `xml:"address,attr"` //地址 127.0.0.1:3344
+	sets    []MsgSet `xml:"set"`          // 消息设置
+}
 
-var set = [2]*ReportPacket{&ReportPacket{}, &ReportPacket{}}
+type MsgSet struct {
+	XMLName xml.Name `xml:"msg"`
+	typ     int      `xml:"type,attr"` //类型，循环间隔还是定时间隔，1，2
+	time    int      `xml:"time,attr"` //时间，秒
+	info    []byte   `xml:"info,attr"` //数据
+	file    string   `xml:"file,attr"` //文件
+}
 
 //数据包
 type Packet struct {
@@ -51,14 +62,54 @@ type ReportPacket struct {
 type TcpClient struct {
 	connection *net.TCPConn
 	hawkServer *net.TCPAddr
-	stopChan   chan struct{}
 }
 
 func main() {
-	//拿到服务器地址信息
-	hawkServer, err := net.ResolveTCPAddr("tcp", server)
+	file, err := os.Open("./net.xml")
 	if err != nil {
-		fmt.Printf("hawk server [%s] resolve error: [%s]", server, err.Error())
+		fmt.Printf("error1: %v", err)
+		return
+	}
+	defer file.Close()
+	data, err := ioutil.ReadAll(file)
+	if err != nil {
+		fmt.Printf("error2: %v", err)
+		return
+	}
+	c := NetClient{}
+	err = xml.Unmarshal(data, &c)
+	if err != nil {
+		fmt.Printf("error3: %v", err)
+	}
+	print("xml:", c)
+	ticker := time.NewTicker(1 * time.Second)
+	var Count = 0
+	go func() {
+		for t := range ticker.C {
+			fmt.Println("Tick at", t)
+			NewConnect(c)
+			Count++
+			if Count >= c.count {
+				ticker.Stop()
+				print("Net Creat Over Count = ", Count)
+			}
+		}
+	}()
+	// 发送消息
+	ticker2 := time.NewTicker(1 * time.Second)
+	go func() {
+		for t := range ticker2.C {
+
+		}
+	}()
+	<-stopChan
+}
+
+func NewConnect(v NetClient) {
+	//拿到服务器地址信息
+	hawkServer, err := net.ResolveTCPAddr("tcp", v.address)
+	if err != nil {
+		fmt.Printf("hawk server [%s] resolve error: [%s]", v.address, err.Error())
 		os.Exit(1)
 	}
 	//连接服务器
@@ -70,7 +121,6 @@ func main() {
 	client := &TcpClient{
 		connection: connection,
 		hawkServer: hawkServer,
-		stopChan:   make(chan struct{}),
 	}
 	//启动接收
 	go client.receivePackets()
@@ -111,14 +161,10 @@ func main() {
 				case <-sendTimer:
 					client.sendProto()
 					sendTimer = time.After(10 * time.Second)
-				case <-client.stopChan:
-					return
 				}
 			}
 		}()
 	}
-	//等待退出
-	<-client.stopChan
 }
 
 // 接收数据包
@@ -127,7 +173,6 @@ func (client *TcpClient) receivePackets() {
 	for {
 		msg, err := reader.ReadString('\n')
 		if err != nil {
-			close(client.stopChan)
 			break
 		}
 		fmt.Print(msg)
