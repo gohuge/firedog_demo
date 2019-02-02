@@ -1,2 +1,9 @@
 *.log
 *.exe
+firedog_demo.iml
+.idea/workspace.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/firedog_demo.iml
+.idea/encodings.xml
+.idea/deployment.xml
