@@ -34,5 +34,6 @@ func init() {
 func main() {
 
 	go boot.Start("./conf")
+
 	boot.Console(0)
 }
