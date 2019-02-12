@@ -11,6 +11,8 @@ import (
 
 type Module struct {
 	Name string
+	Num  int
+	Str  string
 }
 
 var UserDispatcher *fd.EventDispatcher
@@ -20,7 +22,7 @@ func init() {
 }
 
 func (this *Module) Start() {
-	fmt.Println("start")
+	fmt.Println("start", this.Num, this.Str)
 }
 
 func (this *Module) Print(a string, b int) {

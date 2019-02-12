@@ -2,7 +2,10 @@
 <firedog>
   <def id="port" type="int64">8000</def>
   <def id="host" type="string">localhost</def>
-  <application env="cacl,db" name="App"  start="app.Start" index="0"/>  
+  <application env="cacl,db" name="App"  start="app.Start" index="0">
+    <set key="Num" value="3344" type="int" />
+    <set key="Str" value="hello" type="string" />
+  </application>  
   <application env="cacl,db" name="TCPServer" start="tcp_server.Start">
     <set key="address" value="localhost:3344" valuetype="string" />
     <set key="port" value="3344" valuetype="int" />
