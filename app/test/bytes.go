@@ -1,11 +1,12 @@
 package main
 
 import (
-	"../src/firedog/util"
 	"encoding/binary"
 	"fmt"
 	"hash/crc32"
 	"math"
+
+	"../src/firedog/util"
 )
 
 func main() {

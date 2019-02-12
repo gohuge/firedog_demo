@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?>
 <gitcall>
     <application id="im" git="github.com/gohuge/im">
         <conf dir="../conf/im" />
@@ -12,4 +12,4 @@
     <application id="gateway" git="github.com/gohuge/im">
         <conf dir="../conf/im" />
     </application>
-</gitcall>
+</gitcall> -->

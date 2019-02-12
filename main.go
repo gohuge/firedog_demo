@@ -2,38 +2,18 @@
 package main
 
 import (
-	"fmt"
-	"os"
-	"path/filepath"
-	"runtime"
-)
-
-import (
 	_ "./app"
 	_ "./app/pb"
 	"github.com/gohuge/firedog/boot"
 )
 
 func init() {
-	fmt.Println("【APP START !!!】")
-	fmt.Println("=================================================================")
-	for _, arg := range os.Args[1:] {
-		fmt.Println("[boot] args = ", arg)
-	}
-	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println("[boot] current cpu dir :", dir)
-	numCPU := runtime.NumCPU()
-	runtime.GOMAXPROCS(numCPU)
-	fmt.Println("[boot] current cpu number :", numCPU)
-	fmt.Println("=================================================================")
+
 }
 
 func main() {
 
-	go boot.Start("./conf")
+	go boot.Start("./app/#/")
 
 	boot.Console(0)
 }

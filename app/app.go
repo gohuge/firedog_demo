@@ -1,6 +1,8 @@
 package app
 
 import (
+	"fmt"
+
 	_ "./user"
 	"github.com/gohuge/firedog/fd"
 	"github.com/gohuge/firedog/log"
@@ -18,7 +20,7 @@ func init() {
 }
 
 func (this *Module) Start() {
-	// fmt.Println("start")
+	fmt.Println("start")
 }
 
 func (this *Module) Print(a string, b int) {
